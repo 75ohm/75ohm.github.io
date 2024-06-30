@@ -1,0 +1,42 @@
+baseURL: https://blog.daniel-pape.de/
+languageCode: en-us
+theme: ananke
+resourceDir: "../resources"
+
+title: "Do not walk on the grass"
+# description: "Bits and bytes from a growing small family"
+
+author:
+  daniel:
+    name: "Daniel"
+
+DefaultContentLanguage: "en"
+SectionPagesMenu: "main"
+Paginate: 5 
+googleAnalytics: ""
+enableRobotsTXT: true
+
+languages:
+  en:
+    title: "Do not walk on the grass"
+    weight: 1
+    contentDir: "content/en"
+  de:
+    title: "Rasen betreten verboten"
+    weight: 2
+    contentDir: "content/de"
+
+sitemap:
+  changefreq: "monthly"
+  priority: 0.5
+  filename: "sitemap.xml"
+
+params:
+  text_color: ""
+  author: daniel
+  favicon: ""
+  site_logo: ""
+  description: "Bits and bytes from a growing small family"
+  # choose a background color from any on this page: https://tachyons.io/docs/themes/skins/ and preface it with "bg-"
+  background_color_class: "bg-black"
+  recent_posts_number: 5

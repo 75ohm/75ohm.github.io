@@ -1,0 +1,3 @@
+# ignore file for hugo based websites
+public
+resources/_gen
