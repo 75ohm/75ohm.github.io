@@ -105,15 +105,12 @@ jobs:
           name: blog
           path: ./public
       
-      - name: ls -Ral
-        run: ls -Ral
-      
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.ftp_server }}
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
-          protocol: ftp_password
+          protocol: ftp
           local-dir: ./public/
           dry-run: github.ref != 'refs/heads/main'      # Only deploy from main branch
