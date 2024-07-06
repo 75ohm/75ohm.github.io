@@ -1,5 +1,5 @@
 # Sample workflow for building and deploying a Hugo site to GitHub Pages
-name: Deploy Hugo site to Pages
+name: Deploy Hugo site to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -42,7 +42,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+          submodules: recursive   # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0          # Fetch all history for .GitInfo and .Lastmod
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
