@@ -1,13 +1,12 @@
-# Sample workflow for building and deploying a Hugo site to GitHub Pages
+# Workflow for building and deploying a Hugo site to GitHub Pages
+# In addition the site will be uploaded to a ftp host
 name: Deploy Hugo site to GitHub Pages
 
 on:
-  
   push:
     branches:
-      - main      # Runs on pushes targeting the default branch to deploy from
-      - github_actions
-  pull_request:
+      - main                # Runs on pushes targeting the default branch to deploy from
+  pull_request:             # Check if the site still builds correctly when starting pull request
   workflow_dispatch:        # Allows to run this workflow manually from the Actions tab
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -27,12 +26,13 @@ defaults:
   run:
     shell: bash
 
+env:
+  HUGO_VERSION: latest
+
 jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.128.2
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,18 +54,32 @@ jobs:
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
+        run: hugo --minify
+
+      - name: Upload blog as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: blog
+          path: ./public
+          if-no-files-found: error
+
+      - name: Build statice site with Hugo for ${{ steps.pages.outputs.base_url }}
+        env:
+          HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
+          HUGO_ENVIRONMENT: production
         run: |
           hugo \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
 
-      - name: Upload website as artifact
+      - name: Upload website as GitHub pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
 
-  # Deployment job
+  # Deployment jobs
   deploy-github:
+    name: Deploy website to GitHub Pages
     if: github.ref == 'refs/heads/main'      # Only deploy from main branch
     runs-on: ubuntu-latest
     environment:
@@ -76,3 +90,27 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy-ftp:
+    name: Deploy website to blog
+    runs-on: ubuntu-latest
+    environment:
+      name: blog
+      url: "https://blog.daniel-pape.de/"
+    needs: build
+    steps:
+      - name: Download static website from artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: blog
+          path: ./public
+      
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ftp_server }}
+          username: ${{ secrets.ftp_username }}
+          password: ${{ secrets.ftp_password }}
+          protocol: ftp
+          local-dir: ./public/
+          dry-run: ${{ github.ref != 'refs/heads/main' }}    # Only deploy from main branch
