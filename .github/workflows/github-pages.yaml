@@ -113,4 +113,4 @@ jobs:
           password: ${{ secrets.ftp_password }}
           protocol: ftp
           local-dir: ./public/
-          dry-run: github.ref != 'refs/heads/main'      # Only deploy from main branch
+          dry-run: ${{ github.ref != 'refs/heads/main' }}    # Only deploy from main branch
