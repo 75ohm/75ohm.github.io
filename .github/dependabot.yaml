@@ -3,10 +3,10 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
       time: '10:00'
       timezone: "Europe/Berlin"
     labels:
-      - "CI/CD"
+      - "dependabot"
     commit-message:
-      prefix: ci
+      prefix: dependabot

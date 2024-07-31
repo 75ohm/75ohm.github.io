@@ -10,8 +10,8 @@ draft: false
 
 # Mondfinsternis
 
-Langzeitbelichtung mit 10 Minuten Erdbewegung.
+Beginn der Mondfinsternis im Allgäu. <br>
+Die Erdbewgung eingefangen mit einer Belichtungszeit von 10 Minuten.
 
 ![nächtliche Langzeitbelichtung](/images/2019/20190716-230516-P7162024.jpg)
-
 
