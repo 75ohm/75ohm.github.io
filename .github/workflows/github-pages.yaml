@@ -27,7 +27,7 @@ defaults:
     shell: bash
 
 env:
-  HUGO_VERSION: latest
+  HUGO_VERSION: '0.120.4'
 
 jobs:
   # Build job
