@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive   # Fetch Hugo themes (true OR recursive)
           fetch-depth: 0          # Fetch all history for .GitInfo and .Lastmod
@@ -73,7 +73,7 @@ jobs:
             --baseURL "${{ steps.pages.outputs.base_url }}/"
 
       - name: Upload website as GitHub pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./public
 
@@ -100,13 +100,13 @@ jobs:
     needs: build
     steps:
       - name: Download static website from artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: blog
           path: ./public
       
       - name: Sync files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.ftp_server }}
           username: ${{ secrets.ftp_username }}
