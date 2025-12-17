@@ -93,10 +93,12 @@ jobs:
 
   deploy-ftp:
     name: Deploy website to blog
-    runs-on: ubuntu-latest
     environment:
       name: blog
       url: "https://blog.daniel-pape.de/"
+      ftp_server: ${{ secrets.ftp_server }}
+    if: ${{ env.ftp_server != '' }}    # only run for branches with access to secrets
+    runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Download static website from artifacts
