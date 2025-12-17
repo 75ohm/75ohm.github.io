@@ -93,9 +93,6 @@ jobs:
 
   deploy-ftp:
     name: Deploy website to blog
-    env:
-      ftp_server: ${{ secrets.ftp_server }}
-    if: ${{ env.ftp_server != '' }}    # only run for branches with access to secrets
     runs-on: ubuntu-latest
     environment:
       name: blog
@@ -109,6 +106,9 @@ jobs:
           path: ./public
       
       - name: Sync files
+        env:
+          ftp_server: ${{ secrets.ftp_server }}
+        if: ${{ env.ftp_server != '' }}      # only run for branches with access to secrets
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.ftp_server }}
