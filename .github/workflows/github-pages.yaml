@@ -57,7 +57,7 @@ jobs:
         run: hugo --minify
 
       - name: Upload blog as artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: blog
           path: ./public
